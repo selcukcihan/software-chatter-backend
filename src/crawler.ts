@@ -29,6 +29,7 @@ export class Crawler {
       Body: JSON.stringify(tweets),
       Key: `latest/all.json`,
       Bucket: this.s3Bucket,
+      ACL: 'public-read',
     }))
     console.log(`Sourced ${tweets.length} tweets.`)
   }
@@ -68,6 +69,7 @@ export class Crawler {
         Body: JSON.stringify(tweets),
         Key: `latest/${mode}.json`,
         Bucket: this.s3Bucket,
+        ACL: 'public-read',
       }))
     }
     return tweets
