@@ -52,7 +52,7 @@ functions:
     handler: src/lambda.handler
     timeout: 300
     events:
-      - schedule rate(1 day)
+      - schedule: rate(1 day)
     environment:
       BUCKET: ${self:resources.Resources.tweetsBucket.Properties.BucketName}
       TWITTER_APP_KEY: ${env:TWITTER_APP_KEY}
