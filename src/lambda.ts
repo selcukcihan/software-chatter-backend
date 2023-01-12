@@ -3,6 +3,7 @@ import { Container } from 'typedi'
 import { S3Client } from '@aws-sdk/client-s3'
 import { TwitterApi } from 'twitter-api-v2'
 import { Crawler } from '../src/crawler'
+import axios from 'axios'
 
 Container.set('S3_CLIENT', new S3Client({ region: 'eu-west-1' }))
 Container.set('S3_BUCKET', process.env.BUCKET)
@@ -19,6 +20,13 @@ async function handler() {
 
   const crawler = Container.get(Crawler)
   await crawler.run()
+
+  const config = {
+    url: process.env.VERCEL_DEPLOY_HOOK,
+    method: 'get',
+  }
+
+  await axios.request(config)
 
   console.log('Done...')
 }
