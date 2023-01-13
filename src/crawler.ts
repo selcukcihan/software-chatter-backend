@@ -3,7 +3,7 @@ import { Twitter, TwitterResponse } from './twitter'
 import { Tweet } from './models'
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 
-const MAX_TWEET_COUNT = 10000
+const MAX_TWEET_COUNT = parseInt(process.env.MAX_TWEET_COUNT || '100')
 
 const getUser = (page: TwitterResponse, d: { author_id: string }) => page.includes.users.find(u => u.id === d.author_id)?.username
 

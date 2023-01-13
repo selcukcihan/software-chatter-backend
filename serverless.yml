@@ -52,7 +52,7 @@ functions:
     handler: src/lambda.handler
     timeout: 300
     events:
-      - schedule: rate(1 day)
+      - schedule: rate(6 hours)
     environment:
       BUCKET: ${self:resources.Resources.tweetsBucket.Properties.BucketName}
       TWITTER_APP_KEY: ${env:TWITTER_APP_KEY}
@@ -61,3 +61,4 @@ functions:
       TWITTER_ACCESS_SECRET: ${env:TWITTER_ACCESS_SECRET}
       TWITTER_BEARER_TOKEN: ${env:TWITTER_BEARER_TOKEN}
       VERCEL_DEPLOY_HOOK: ${env:VERCEL_DEPLOY_HOOK}
+      MAX_TWEET_COUNT: 10000
