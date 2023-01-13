@@ -2,7 +2,6 @@ import { Inject, Service } from 'typedi'
 import { Twitter, TwitterResponse } from './twitter'
 import { Tweet } from './models'
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
-import { sleep } from './utils'
 
 const MAX_TWEET_COUNT = 10000
 
@@ -55,13 +54,16 @@ export class Crawler {
           link: `https://twitter.com/${getUser(page, d)}/status/${d.id}`,
           author: `@${getUser(page, d)}`,
           context: (d.context_annotations || []).map(c => c.entity.name.toLowerCase()),
+          urls: (d.entities?.urls || []).map(u => ({
+            shortened: u.url,
+            actual: u.unwound_url || u.expanded_url || u.url,
+          })),
         })))
       }
 
       if (!paginationToken) {
         break
       }
-      await sleep(500)
     }
     console.log(`${mode}: Fetched ${tweets.length} tweets for ${since}`)
     if (tweets.length > 0) {

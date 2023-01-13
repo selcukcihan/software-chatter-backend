@@ -15,7 +15,7 @@ Container.set('TWITTER_API', new TwitterApi({
 }))
 Container.set('TWITTER_BEARER_TOKEN', process.env.TWITTER_BEARER_TOKEN as string)
 
-async function handler() {
+async function handler(event: any) {
   console.log('Started processing...')
 
   const crawler = Container.get(Crawler)
@@ -26,7 +26,11 @@ async function handler() {
     method: 'get',
   }
 
-  await axios.request(config)
+  if (event?.dryRun) {
+    console.log('Dry run...')
+  } else {
+    await axios.request(config)
+  }
 
   console.log('Done...')
 }

@@ -28,6 +28,13 @@ type Data = {
   created_at: Date
   public_metrics: PublicMetrics
   id: string
+  entities?: {
+    urls?: {
+      url: string
+      unwound_url?: string
+      expanded_url?: string
+    }[]
+  }
   context_annotations?: {
     domain: {
       id: string,
